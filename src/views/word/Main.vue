@@ -20,10 +20,10 @@
       <van-button type="primary" style="width: 88px" @click="getOneWord">认识</van-button>
     </div>
     <van-tabbar v-model="tabbar_active" @change="onTabBarChange">
-      <van-tabbar-item name="home" icon="home-o">主页</van-tabbar-item>
-      <van-tabbar-item name="search" icon="search">搜索</van-tabbar-item>
-      <van-tabbar-item name="friends" icon="friends-o">圈子</van-tabbar-item>
-      <van-tabbar-item name="setting" icon="setting-o">设置</van-tabbar-item>
+      <van-tabbar-item name="home" icon="idcard">单词</van-tabbar-item>
+      <van-tabbar-item name="search" icon="records">训练</van-tabbar-item>
+      <van-tabbar-item name="friends" icon="eye-o">发现</van-tabbar-item>
+      <van-tabbar-item name="setting" icon="contact">我的</van-tabbar-item>
     </van-tabbar>
     <van-popup v-model="popShow" round position="bottom" :style="{ height: '50%' }">
       <van-picker
