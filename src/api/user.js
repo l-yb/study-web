@@ -22,3 +22,27 @@ export function logout() {
 		method: 'post'
 	})
 }
+
+export function ListAvatars(query) {
+	return request({
+		url: '/base/user/avatar/list',
+		method: 'get',
+		params: query
+	})
+}
+
+export function ListRoles(query) {
+	return request({
+		url: '/base/role/list',
+		method: 'get',
+		params: query
+	})
+}
+
+export function updateAvatar(data) {
+	return request({
+		url: '/base/user/update/avatar',
+		method: 'post',
+		data
+	})
+}

@@ -14,14 +14,8 @@
         <van-form @submit="handleLogin">
           <van-field ref="username" v-model="loginForm.username" name="用户名" label="用户名" placeholder="用户名" :rules="loginRules.username"/>
           <van-field ref="password" :key="passwordType" v-model="loginForm.password" :type="passwordType"
-                     :rules="loginRules.password" name="密码" label="密码" placeholder="密码">
-            
-            <span class="show-pwd" @click="showPwd">
-              <svg-icon  />
-            </span>
-            <template #icon>
-              <van-icon :name="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-            </template>
+                     :rules="loginRules.password" name="密码" label="密码" placeholder="密码"
+                     :right-icon="passwordType === 'password' ? 'closed-eye' : 'eye-o'" @click-right-icon="showPwd">
           </van-field>
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">登录</van-button>
@@ -36,22 +30,16 @@
 	export default {
 		name: "Login",
 		data() {
-			const validateUsername = (rule, value, callback, a) => {
+			const validateUsername = (value, rule) => {
 				if (value.length === 0) {
-					return a(new Error('请输入登录用户名, 示例用户: jack/rose .'))
-					// return b(new Error('请输入登录用户名, 示例用户: jack/rose .'))
-					// return c(new Error('请输入登录用户名, 示例用户: jack/rose .'))
-					// return callback(new Error('请输入登录用户名, 示例用户: jack/rose .'))
-				} else {
-					return true
+					rule.message = '请输入登录用户名, 示例用户: jack/rose.'
+					return false
 				}
 			}
-			const validatePassword = (rule, value, callback) => {
-				console.log(rule, value, callback)
+			const validatePassword = (value, rule) => {
 				if (value.length < 6) {
-					return callback(new Error('密码长度不能小于6'))
-				} else {
-					return true
+					rule.message = '密码长度不能小于6'
+					return false
 				}
 			}
 			return {
@@ -63,8 +51,8 @@
 				passwordType: 'password',
 				redirect: undefined,
 				loginRules: {
-					username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-					password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+					username: [{ required: true, trigger: 'blur', validator: validateUsername, message: '请输入用户名' }],
+					password: [{ required: true, trigger: 'blur', validator: validatePassword, message: '请输入密码' }]
 				},
         back_image_list: ['advent', 'append', 'awkward', 'courtyard', 'craftsmanship', 'envy', 'faith', 'ignore',
           'partake', 'remedy', 'render', 'roll', 'safeguard', 'sturdy', 'trespasser', 'vacancy', 'venturesome',
@@ -95,7 +83,7 @@
 			handleLogin() {
         this.loading = true
         this.$store.dispatch('user/login', this.loginForm).then(() => {
-          this.$router.push({ path: this.redirect || '/' })
+          this.$router.push({ path: this.redirect || '/my' })
           this.loading = false
         }).catch(() => {
           this.loading = false

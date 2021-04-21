@@ -51,9 +51,10 @@ service.interceptors.response.use(
     if (res.code !== 0) {
 			// eslint-disable-next-line no-mixed-spaces-and-tabs
     	Toast({
+				position: 'top',
         message: res.msg || 'Error',
         type: 'fail',
-        duration: 3 * 1000
+        duration: 2 * 1000
       })
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 10401 || res.code === 10403 || res.code === 50014) {
@@ -74,6 +75,7 @@ service.interceptors.response.use(
   error => {
     console.log('err111' + error) // for debug
 		Toast({
+			position: 'top',
 			message: error.toString().replace('Error:', ''),
       type: 'fail'
     })

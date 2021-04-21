@@ -5,9 +5,12 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
 	return {
 		token: localToken(),
-		name: '',
+		name: '未登录',
+		cname: 'anyone',
+		user_sn: '0000',
+		gender: '',
 		avatar: '',
-		roles: []
+		role: {}
 	}
 }
 
@@ -20,14 +23,23 @@ const mutations = {
 	SET_TOKEN: (state, token) => {
 		state.token = token
 	},
+	SET_SN: (state, user_sn) => {
+		state.user_sn = user_sn
+	},
+	SET_GENDER: (state, gender) => {
+		state.gender = gender
+	},
 	SET_NAME: (state, name) => {
 		state.name = name
+	},
+	SET_CNAME: (state, cname) => {
+		state.cname = cname
 	},
 	SET_AVATAR: (state, avatar) => {
 		state.avatar = avatar
 	},
-	SET_ROLES: (state, roles) => {
-		state.roles = roles
+	SET_ROLE: (state, role) => {
+		state.role = role
 	}
 }
 
@@ -59,14 +71,17 @@ const actions = {
 					reject('Verification failed, please Login again.')
 				}
 
-				const { roles, cname, avatar_url } = data
-				// console.log(JSON.stringify(data))
-				// roles must be a non-empty array
-				if (!roles || roles.length <= 0) {
-					reject('getInfo: roles must be a non-null array!')
+				const { role, username, cname, user_sn, gender, avatar_url  } = data
+				console.log(JSON.stringify(data))
+				// role must be a non-empty array
+				if (!role || role === undefined || role === null || role === '') {
+					reject('getInfo: role must be a json data!')
 				}
-				commit('SET_ROLES', roles)
-				commit('SET_NAME', cname)
+				commit('SET_ROLE', role)
+				commit('SET_NAME', username)
+				commit('SET_CNAME', cname)
+				commit('SET_SN', user_sn)
+				commit('SET_GENDER', gender)
 				commit('SET_AVATAR', avatar_url)
 				resolve(data)
 			}).catch(error => {
