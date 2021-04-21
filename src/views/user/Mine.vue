@@ -7,15 +7,14 @@
       <van-row>
         <van-col span="8">
           <div>
-            <h1>{{ cname }}</h1>
+            <h1>{{ user.cname }}</h1>
             <van-col span="8" style="margin-top: -20px;">
-              <span>{{ name }}</span>/<span>{{ user_sn }}</span>
-              {{ avatar }}
+              <span>{{ user.username }}</span>/<span>{{ user.user_sn }}</span>
             </van-col>
           </div>
         </van-col>
         <van-col offset="7" style="float:right">
-          <van-image round width="6rem" height="6rem" :src="avatar" @click.native="set_avatar = true"/>
+          <van-image round width="6rem" height="6rem" :src="user.avatar_url" @click.native="set_avatar = true"/>
         </van-col>
       </van-row>
       <van-row style="padding-top: 20px;">
@@ -28,7 +27,7 @@
           <span style="font-size: 10px">坚持天数</span>
         </van-col>
         <van-col offset="3">
-          <strong style="font-style:italic;">{{ role.name }}</strong><br/>
+          <strong style="font-style:italic;">{{ user.role.name }}</strong><br/>
           <span style="font-size: 10px">词汇等级</span>
         </van-col>
       </van-row>
@@ -40,11 +39,12 @@
       <div style="height:300px; overflow-y:auto; padding-top:15px">
         <van-row>
           <van-col v-for="img in avatar_list" :key="img.id" span="6">
-            <van-badge>
-              <van-image round width="3rem" height="3rem" @click.native="user_avatar = img.id"
+            <van-badge color="#1989fa">
+              <van-image  style="padding-left: 10px;bottom: 12px"
+                          width="3.5rem" height="3.5rem" @click.native="user_avatar = img.id"
                          :src="avatar_server + '/' + img.name"/>
               <template #content>
-                <van-icon name="success"  v-show="user_avatar === img.id" class="badge-icon" />
+                <van-icon name="success" v-show="user_avatar === img.id" class="badge-icon" />
               </template>
             </van-badge>
           </van-col>
@@ -55,8 +55,7 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
-	import { ListAvatars, ListRoles, updateAvatar } from '../../api/user'
+	import { ListAvatars, ListRoles, updateAvatar, userDetail } from '../../api/user'
 	export default {
 		name: "Mine",
 		data() {
@@ -65,26 +64,22 @@
 				avatar_list: [],
         role_list: [],
         user_avatar: null,
-				avatar_server: '/user/avatar'
+				avatar_server: '/user/avatar',
+        user: {
+          username: 'hanmeimei',
+          role: {'name': '学友'},
+          cname: '韩梅梅',
+          gender: 'F',
+          user_sn: 10000,
+          avatar_id: 1,
+          avatar_url: ''
+        }
 			}
-		},
-		computed: {
-			...mapGetters([
-				'avatar',
-				'name',
-				'role',
-				'cname',
-				'gender',
-				'user_sn'
-			])
 		},
     watch: {
 			'set_avatar': function () {
-				if (this.set_avatar === false) {
-					this.user_avatar = null
-        } else {
-					// let avatar_name = this.avatar.split
-					this.availableIncomingBitrate
+				if (this.user_avatar !== this.user.avatar_id) {
+					this.user_avatar = this.user.avatar_id
         }
 			}
     },
@@ -102,22 +97,27 @@
 					this.avatar_server = response.server
 				})
 			},
+      getUserInfo () {
+				userDetail().then(response => {
+					this.user = Object.assign({}, response.data) // copy obj
+					this.user_avatar = response.data.avatar_id
+					// console.log('data: ', JSON.stringify(this.temp))
+				})
+			},
 			beforeAvatarClose(action, done) {
 				if (action === 'confirm') {
-          this.updateUserAvatar()
-					done();
-				} else {
-					done();
+					this.updateUserAvatar()
 				}
+				done();
 			},
 			updateUserAvatar() {
-				if (this.user_avatar !== null) {
+				if (this.user_avatar !== this.user.avatar_id) {
 					updateAvatar({avatar: this.user_avatar}).then(response => {
-						this.dialogFormVisible = false
 						this.$toast({
 							message: response.msg || '更新用户信息成功',
 							duration: 1500
 						})
+						this.getUserInfo()
 					})
 				} else {
 					this.user_avatar = null
@@ -129,6 +129,7 @@
 		created() {
 			this.getRoles()
 			this.getAvatars()
+			this.getUserInfo()
 		}
 	}
 </script>

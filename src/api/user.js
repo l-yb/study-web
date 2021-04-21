@@ -46,3 +46,10 @@ export function updateAvatar(data) {
 		data
 	})
 }
+
+export function userDetail() {
+	return request({
+		url: '/base/user/detail',
+		method: 'get'
+	})
+}

@@ -32,11 +32,14 @@ const mutations = {
 	SET_NAME: (state, name) => {
 		state.name = name
 	},
+	SET_AVATAR_ID: (state, avatar_id) => {
+		state.avatar_id = avatar_id
+	},
 	SET_CNAME: (state, cname) => {
 		state.cname = cname
 	},
-	SET_AVATAR: (state, avatar) => {
-		state.avatar = avatar
+	SET_AVATAR_URL: (state, avatar_url) => {
+		state.avatar_url = avatar_url
 	},
 	SET_ROLE: (state, role) => {
 		state.role = role
@@ -71,7 +74,7 @@ const actions = {
 					reject('Verification failed, please Login again.')
 				}
 
-				const { role, username, cname, user_sn, gender, avatar_url  } = data
+				const { role, username, cname, user_sn, gender, avatar_url, avatar } = data
 				console.log(JSON.stringify(data))
 				// role must be a non-empty array
 				if (!role || role === undefined || role === null || role === '') {
@@ -82,7 +85,8 @@ const actions = {
 				commit('SET_CNAME', cname)
 				commit('SET_SN', user_sn)
 				commit('SET_GENDER', gender)
-				commit('SET_AVATAR', avatar_url)
+				commit('SET_AVATAR_URL', avatar_url)
+				commit('SET_AVATAR_ID', avatar)
 				resolve(data)
 			}).catch(error => {
 				reject(error)
