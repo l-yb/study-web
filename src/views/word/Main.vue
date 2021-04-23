@@ -19,12 +19,7 @@
       <van-button type="info" style="width: 88px" @click="showWordPrompt">提示</van-button>
       <van-button type="primary" style="width: 88px" @click="getOneWord">认识</van-button>
     </div>
-    <van-tabbar v-model="tabbar_active" @change="onTabBarChange">
-      <van-tabbar-item name="home" icon="idcard">单词</van-tabbar-item>
-      <van-tabbar-item name="search" icon="records">训练</van-tabbar-item>
-      <van-tabbar-item name="friends" icon="eye-o">发现</van-tabbar-item>
-      <van-tabbar-item name="setting" icon="contact">我的</van-tabbar-item>
-    </van-tabbar>
+    <custom-tab-bar/>
     <van-popup v-model="popShow" round position="bottom" :style="{ height: '50%' }">
       <van-picker
         title="单词范围"
@@ -40,8 +35,9 @@
 </template>
 
 <script>
-
+	import CustomTabBar from "@/components/Tabbar/index";
 	export default {
+		components: {CustomTabBar},
 		data() {
 			return {
 				range: 'ALL',

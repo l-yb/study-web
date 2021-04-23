@@ -9,7 +9,8 @@ const getDefaultState = () => {
 		cname: 'anyone',
 		user_sn: '0000',
 		gender: '',
-		avatar: '',
+		avatar_url: '',
+		avatar_id: '',
 		role: {}
 	}
 }

@@ -32,15 +32,23 @@
         </van-col>
       </van-row>
     </div>
-    
+    <div style="padding-top: 10px">
+      <van-cell title="我的收藏" icon="idcard" title-class="title-class" is-link to="/word/list" size="large">
+      </van-cell>
+      <van-cell title="好友排名" icon="friends-o" title-class="title-class" size="large">
+      </van-cell>
+      <van-cell title="学习设置" icon="bookmark-o" title-class="title-class" size="large">
+      </van-cell>
+    </div>
+    <custom-tab-bar/>
     <!-- 设置用户头像弹出框 -->
     <van-dialog v-model="set_avatar" title="设置头像" theme="round" confirmButtonText="修改" confirmButtonColor="blue"
                 :closeOnClickOverlay="true" show-cancel-button :beforeClose="beforeAvatarClose">
-      <div style="height:300px; overflow-y:auto; padding-top:15px">
+      <div style="height:300px; overflow-y:auto; padding-top:15px; padding-left: 10px">
         <van-row>
           <van-col v-for="img in avatar_list" :key="img.id" span="6">
             <van-badge color="#1989fa">
-              <van-image  style="padding-left: 10px;bottom: 12px"
+              <van-image radius="5"
                           width="3.5rem" height="3.5rem" @click.native="user_avatar = img.id"
                          :src="avatar_server + '/' + img.name"/>
               <template #content>
@@ -56,7 +64,9 @@
 
 <script>
 	import { ListAvatars, ListRoles, updateAvatar, userDetail } from '../../api/user'
+	import CustomTabBar from '@/components/Tabbar'
 	export default {
+		components: { CustomTabBar },
 		name: "Mine",
 		data() {
 			return {
@@ -66,9 +76,9 @@
         user_avatar: null,
 				avatar_server: '/user/avatar',
         user: {
-          username: 'hanmeimei',
+          username: 'name',
           role: {'name': '学友'},
-          cname: '韩梅梅',
+          cname: 'Hello',
           gender: 'F',
           user_sn: 10000,
           avatar_id: 1,
@@ -140,4 +150,7 @@
   padding: 18px;
   color: white;
 }
+  .title-class {
+    padding-left: 20px;
+  }
 </style>

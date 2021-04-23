@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Main from '../views/word/Main'
+import WordIndex from '../views/word/index'
 import Login from '../views/user/Login'
 import Mine from '../views/user/Mine'
+import WordList from '../views/word/List'
+import WordSearch from '../views/word/search'
 import store from '@/store'
 
 Vue.use(VueRouter)
 
 const routes = [
-	{ path: '/', name: 'Main', component: Main },
+	{ path: '/', name: 'Main', component: WordIndex },
 	{ path: '/login', name: 'Login', component: Login },
+	{ path: '/word/list', name: 'WordList', component: WordList },
+	{ path: '/word/search', name: 'WordSearch', component: WordSearch },
 	{ path: '/my', name: 'Mine', component: Mine, meta: {auth: true} }
 ]
 
