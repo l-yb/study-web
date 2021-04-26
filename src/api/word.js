@@ -38,3 +38,43 @@ export function ListWordElement() {
 		method: 'get'
 	})
 }
+export function ListSearchHistory() {
+	return request({
+		url: '/word/vocabulary/history/list',
+		method: 'get'
+	})
+}
+
+export function SetSearchHistory(wordId) {
+	return request({
+		url: '/word/vocabulary/history/' + wordId,
+		method: 'post'
+	})
+}
+export function DelSearchHistory() {
+	return request({
+		url: '/word/vocabulary/history/delete',
+		method: 'post'
+	})
+}
+
+export function SetWordCollect(wordId) {
+	return request({
+		url: '/word/vocabulary/collect/' + wordId,
+		method: 'post'
+	})
+}
+
+export function ListWordCollect() {
+	return request({
+		url: '/word/vocabulary/collect/list',
+		method: 'get'
+	})
+}
+
+export function DelWordCollect(wordId) {
+	return request({
+		url: '/word/vocabulary/collect/' + wordId,
+		method: 'delete'
+	})
+}

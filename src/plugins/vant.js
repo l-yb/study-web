@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import {
 	Button, NavBar, Toast, Badge, Panel, Cell, Tabbar, TabbarItem, Col, Row, Picker, Popup,
-	Form, Field, Icon, Image, Dialog, List, Tabs, Tab, IndexAnchor, Sticky, Search
+	Form, Field, Icon, Image, Dialog, List, Tabs, Tab, IndexAnchor, Sticky, Search, Divider, Tag
 } from 'vant'
 
 
 Vue.use(Button).use(NavBar).use(Tabbar).use(TabbarItem).use(Col).use(Row).use(Picker).use(Popup).use(Form).use(
 	Field).use(Icon).use(Image).use(Dialog).use(Panel).use(Badge).use(Cell).use(List).use(Tab).use(Tabs).use(
-		IndexAnchor).use(Sticky).use(Search)
+		IndexAnchor).use(Sticky).use(Search).use(Divider).use(Tag)
 Vue.prototype.$toast = Toast

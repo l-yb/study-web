@@ -2,6 +2,7 @@ import axios from 'axios'
 // import { MessageBox, Message } from 'element-ui'
 import { Toast, Dialog } from 'vant'
 import store from '@/store'
+import router from "@/router"
 import { localToken } from '@/utils/auth'
 
 // create an axios instance
@@ -56,18 +57,23 @@ service.interceptors.response.use(
         type: 'fail',
         duration: 2 * 1000
       })
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 10401 || res.code === 10403 || res.code === 50014) {
+			console.log('111', JSON.stringify(res))
+			// 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+      if (res.code === 10401  || res.code === 401 || res.code === 10403 || res.code === 50014) {
+        console.log('登录失败', JSON.stringify(res))
 				Dialog.confirm({
-          title: '已退出登录',
-          message: '当前用户已退出登录, 是否跳转到登录页, 或点击取消停留在本界面.'
+          title: '用户未登录',
+					confirmButtonText: '去登陆',
+          message: '用户未登录或已退出 <br/>请点击跳转到登录页'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
-            location.reload()
+            // location.reload()
+            console.log('router.fullPath: ', router.currentRoute.fullPath)
+            router.push({path: '/login', query: {redirect: router.currentRoute.fullPath}})
           })
         })
+				return Promise.reject(new Error(res.code || 'Error'))
       }
-      return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res
     }

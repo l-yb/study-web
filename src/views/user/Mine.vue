@@ -2,7 +2,7 @@
   <div>
     <!-- 个人页顶部导航栏 -->
     <div class="user-background">
-      <van-icon name="setting-o" size="20" style="float:right"/>
+<!--      <van-icon name="setting-o" size="20" style="float:right"/>-->
       <p/>
       <van-row>
         <van-col span="8">
@@ -33,12 +33,15 @@
       </van-row>
     </div>
     <div style="padding-top: 10px">
-      <van-cell title="我的收藏" icon="idcard" title-class="title-class" is-link to="/word/list" size="large">
+      <van-cell title="我的收藏" icon="idcard" title-class="title-class" is-link to="/word/list?type=collect" size="large">
       </van-cell>
       <van-cell title="好友排名" icon="friends-o" title-class="title-class" size="large">
       </van-cell>
       <van-cell title="学习设置" icon="bookmark-o" title-class="title-class" size="large">
       </van-cell>
+      <div style="padding: 20px; padding-top: 50%">
+        <van-button plain round type="danger" block @click="handleLogout">退出登录</van-button>
+      </div>
     </div>
     <custom-tab-bar/>
     <!-- 设置用户头像弹出框 -->
@@ -134,7 +137,11 @@
           this.set_avatar = false
 					this.$toast('未作修改')
 				}
-			}
+			},
+			handleLogout () {
+				this.$store.dispatch('user/logout')
+				this.$router.push({'path': '/login'})
+      }
     },
 		created() {
 			this.getRoles()

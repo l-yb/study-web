@@ -2,7 +2,8 @@
   <div id="user-login" :style="conTop">
     <!-- 登录页顶部导航栏 -->
     <van-nav-bar
-      title="欢迎登录词汇程序" left-text="主页" right-text="搜词" left-arrow>
+      title="欢迎登录词汇程序" left-text="主页" @click-left="onClickLeft"
+      @click-right="onClickRight" right-text="搜词" left-arrow>
       <template #right>
         <van-icon name="search" size="17" />
        <span style="margin-left: 2px" class="van-nav-bar__text">搜词</span>
@@ -69,7 +70,21 @@
         }
 			}
     },
+    watch: {
+      $route: {
+        handler: function(route) {
+          this.redirect = route.query && route.query.redirect
+        },
+        immediate: true
+      }
+    },
 		methods: {
+			onClickLeft() {
+				this.$router.push({ path: '/' })
+			},
+			onClickRight() {
+				this.$router.push({ path: '/word/search'})
+			},
 			showPwd() {
 				if (this.passwordType === 'password') {
 					this.passwordType = ''
@@ -83,7 +98,7 @@
 			handleLogin() {
         this.loading = true
         this.$store.dispatch('user/login', this.loginForm).then(() => {
-          this.$router.push({ path: this.redirect || '/my' })
+          this.$router.push({ path: this.redirect || '/' })
           this.loading = false
         }).catch(() => {
           this.loading = false

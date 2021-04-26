@@ -6,6 +6,7 @@ import store from './store'
 import './plugins/vant.js'
 import './assets/css/global.css'
 
+import './icons'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
@@ -13,6 +14,7 @@ Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://49.232.140.30:8080/word'
 
 new Vue({
+
 	router,
 	store,
 	render: h => h(App)

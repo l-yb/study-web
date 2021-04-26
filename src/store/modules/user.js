@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '../../api/user'
 import { localToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+// import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
 	return {
@@ -100,11 +100,12 @@ const actions = {
 		return new Promise((resolve, reject) => {
 			logout(state.token).then(() => {
 				removeToken() // must remove  token  first
-				resetRouter()
+				// resetRouter()
 				commit('RESET_STATE')
 				resolve()
 			}).catch(error => {
-				resetRouter()
+				// resetRouter()
+				// this.$router.push({path: '/login'})
 				reject(error)
 			})
 		})
